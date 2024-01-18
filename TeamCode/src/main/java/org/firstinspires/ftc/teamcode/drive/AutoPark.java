@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -54,9 +55,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="blue backstage park", group="Robot")
+@Autonomous(name="just park", group="Robot")
 //@Disabled
-public class BlueLeftAutoPark extends LinearOpMode {
+public class AutoPark extends LinearOpMode {
 
     /* Declare OpMode members. */
 
@@ -65,12 +66,16 @@ public class BlueLeftAutoPark extends LinearOpMode {
     private DcMotorEx wheelFR;
     private DcMotorEx wheelBL;
     private DcMotorEx wheelBR;
+    //private DcMotorEx armSlideMoter;
 
-    private Servo armServo;
+    //private Servo armServo;
+
+    //double initialposition;
+
 
 
     static final double     FORWARD_SPEED = 0.4;
-    static final double     TURN_SPEED    = 0.2;
+    //static final double     TURN_SPEED    = 0.2;
 
     @Override
     public void runOpMode() {
@@ -83,7 +88,8 @@ public class BlueLeftAutoPark extends LinearOpMode {
         wheelFR = hardwareMap.get(DcMotorEx.class, "wheelFR");
         wheelBL = hardwareMap.get(DcMotorEx.class, "wheelBL");
         wheelBR = hardwareMap.get(DcMotorEx.class, "wheelBR");
-        armServo = hardwareMap.get(Servo.class, "servoArm");
+//        armServo = hardwareMap.get(Servo.class, "servoArm");
+//        armSlideMoter = hardwareMap.get(DcMotorEx.class,"slideMoter");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -92,11 +98,18 @@ public class BlueLeftAutoPark extends LinearOpMode {
 //        rightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         wheelFL.setDirection(DcMotorEx.Direction.FORWARD);
-        wheelFR.setDirection(DcMotorEx.Direction.FORWARD);
-        wheelBL.setDirection(DcMotorEx.Direction.REVERSE);
+        wheelFR.setDirection(DcMotorEx.Direction.REVERSE);
+        wheelBL.setDirection(DcMotorEx.Direction.FORWARD);
         wheelBR.setDirection(DcMotorEx.Direction.REVERSE);
+//        armSlideMoter.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//        armSlideMoter.setTargetPosition(0);
+//
+//        initialposition = armSlideMoter.getCurrentPosition();
+//
+//        armServo.setPosition(.5);
 
-        armServo.setPosition(.32);
+
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
@@ -107,7 +120,7 @@ public class BlueLeftAutoPark extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Drive forward for 3 seconds
+        // Step 1:  Drive forward for 1.5 seconds
 //        leftDrive.setPower(FORWARD_SPEED);
 //        rightDrive.setPower(FORWARD_SPEED);
 
@@ -119,22 +132,33 @@ public class BlueLeftAutoPark extends LinearOpMode {
 
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        armServo.setPosition(.1);
 
 
-        //Step 2:  Spin right for 1.3 seconds
-//        leftDrive.setPower(TURN_SPEED);
-//        rightDrive.setPower(-TURN_SPEED);
-        wheelFL.setPower(TURN_SPEED);
-        //wheelFR.setPower(FORWARD_SPEED);
-        wheelBL.setPower(TURN_SPEED);
-        //wheelBR.setPower(FORWARD_SPEED);
+//        armSlideMoter.setTargetPositionTolerance((int)initialposition + 50);
+//        armSlideMoter.setVelocity(1750);
 
+
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+//        armServo.setPosition(.1);
+
+
+//        //Step 2:  Spin right for 1.3 seconds
+////        leftDrive.setPower(TURN_SPEED);
+////        rightDrive.setPower(-TURN_SPEED);
+//        wheelFL.setPower(TURN_SPEED);
+//        //wheelFR.setPower(FORWARD_SPEED);
+//        wheelBL.setPower(TURN_SPEED);
+//        //wheelBR.setPower(FORWARD_SPEED);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2)) {
@@ -142,21 +166,27 @@ public class BlueLeftAutoPark extends LinearOpMode {
             telemetry.update();
         }
 
-        wheelFL.setDirection(DcMotorEx.Direction.FORWARD);
-        wheelFR.setDirection(DcMotorEx.Direction.REVERSE);
-        wheelBL.setDirection(DcMotorEx.Direction.REVERSE);
-        wheelBR.setDirection(DcMotorEx.Direction.FORWARD);
 
-        wheelFL.setPower(TURN_SPEED);
-        wheelFR.setPower(TURN_SPEED);
-        wheelBL.setPower(TURN_SPEED);
-        wheelBR.setPower(TURN_SPEED);
 
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1)) {
-            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
+//        wheelFL.setDirection(DcMotorEx.Direction.REVERSE);
+//        wheelFR.setDirection(DcMotorEx.Direction.FORWARD);
+//        wheelBL.setDirection(DcMotorEx.Direction.FORWARD);
+//        wheelBR.setDirection(DcMotorEx.Direction.REVERSE);
+//
+//        wheelFL.setPower(TURN_SPEED);
+//        wheelFR.setPower(TURN_SPEED);
+//        wheelBL.setPower(TURN_SPEED);
+//        wheelBR.setPower(TURN_SPEED);
+//
+//        runtime.reset();
+//        while (opModeIsActive() && (runtime.seconds() < 1)) {
+//            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
+
+        //arm up
+
+        //armSlideMoter.setTargetPosition();
 
         // Step 3:  Drive Backward for 1 Second
 //        leftDrive.setPower(-FORWARD_SPEED);
@@ -175,7 +205,10 @@ public class BlueLeftAutoPark extends LinearOpMode {
         wheelFR.setPower(0);
         wheelBL.setPower(0);
         wheelBR.setPower(0);
-        armServo.setPosition(.1);
+//        armServo.setPosition(.44);
+       // armSlideMoter.setTargetPosition ((int)initialposition);
+
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
